@@ -15,9 +15,9 @@ func init() {
 
 type PQ857 struct{ sort.IntSlice }
 
-func (pq PQ857) Less(i, j int) bool { return pq.IntSlice[i] > pq.IntSlice[j] }
-func (PQ857) Push(any)              {}
-func (PQ857) Pop() (_ any)          { return }
+func (pq PQ857) Less(i, j int) bool { return pq.IntSlice[i] > pq.IntSlice[j] } // Max Heap
+func (PQ857) Push(any)              {}                                         // No use, only Init & Fix
+func (PQ857) Pop() (_ any)          { return }                                 // ^
 
 // 857h Minimum Cost to Hire K Workers
 func mincostToHireWorkers(quality []int, wage []int, k int) float64 {
