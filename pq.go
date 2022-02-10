@@ -13,6 +13,27 @@ func init() {
 	log.Print("> Priority Queue")
 }
 
+type E786 struct {
+	Ratio float64
+	l, r  int
+}
+type PQ786 []E786
+
+func (p PQ786) Len() int           { return len(p) }
+func (p PQ786) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+func (p PQ786) Less(i, j int) bool { return p[i].Ratio < p[j].Ratio }
+func (p *PQ786) Push(x any)        { *p = append(*p, x.(E786)) }
+func (p *PQ786) Pop() any {
+	v := (*p)[len(*p)-1]
+	*p = (*p)[:len(*p)-1]
+	return v
+}
+
+// 786m K-th Smallest Prime Fraction
+func kthSmallestPrimeFraction(arr []int, k int) []int {
+	return []int{}
+}
+
 type PQ857 struct{ sort.IntSlice }
 
 func (pq PQ857) Less(i, j int) bool { return pq.IntSlice[i] > pq.IntSlice[j] } // Max Heap
