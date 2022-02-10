@@ -13,11 +13,11 @@ func init() {
 	log.Print("> Priority Queue")
 }
 
+type PQ786 []E786
 type E786 struct {
 	Ratio float64
-	l, r  int
+	n, d  int // index of: Numerator, Denominator
 }
-type PQ786 []E786
 
 func (p PQ786) Len() int           { return len(p) }
 func (p PQ786) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
@@ -31,7 +31,21 @@ func (p *PQ786) Pop() any {
 
 // 786m K-th Smallest Prime Fraction
 func kthSmallestPrimeFraction(arr []int, k int) []int {
-	return []int{}
+	Q := PQ786{}
+	for i := range arr[:len(arr)-1] {
+		heap.Push(&Q, E786{float64(arr[i]) / float64(arr[len(arr)-1]), i, len(arr) - 1})
+	}
+
+	var e E786
+	for range k {
+		e = heap.Pop(&Q).(E786)
+		n, d := e.n, e.d
+		if d-1 > n {
+			heap.Push(&Q, E786{float64(arr[n]) / float64(arr[d-1]), n, d - 1})
+		}
+	}
+
+	return []int{arr[e.n], arr[e.d]}
 }
 
 type PQ857 struct{ sort.IntSlice }

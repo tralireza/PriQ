@@ -22,7 +22,7 @@ func Test786(t *testing.T) {
 		for range k - 1 {
 			log.Print(" -> ", heap.Pop(&Q))
 		}
-		return []int{nums[Q[0].l], nums[Q[0].r]}
+		return []int{nums[Q[0].n], nums[Q[0].d]}
 	}
 
 	for _, f := range []func([]int, int) []int{kthSmallestPrimeFraction, On2} {
