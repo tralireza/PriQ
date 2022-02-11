@@ -3,6 +3,8 @@ package PriQ
 import (
 	"container/heap"
 	"log"
+	"slices"
+	"strconv"
 	"testing"
 )
 
@@ -10,8 +12,37 @@ func init() {}
 
 // 506 Relative Ranks
 func Test506(t *testing.T) {
-	log.Printf(" ?= %q", findRelativeRanks([]int{5, 4, 3, 2, 1}))
-	log.Printf(" ?= %q", findRelativeRanks([]int{10, 3, 8, 9, 4}))
+	IndexMap := func(score []int) []string {
+		Rank := make([]string, len(score))
+
+		I := map[int]int{}
+		for i, v := range score {
+			I[v] = i
+		}
+		slices.SortFunc(score, func(a, b int) int { return b - a })
+
+		for i, v := range score {
+			var rank string
+			switch i {
+			case 0:
+				rank = "Gold Medal"
+			case 1:
+				rank = "Silver Medal"
+			case 2:
+				rank = "Bronze Medal"
+			default:
+				rank = strconv.Itoa(i + 1)
+			}
+			Rank[I[v]] = rank
+		}
+
+		return Rank
+	}
+
+	for _, f := range []func([]int) []string{findRelativeRanks, IndexMap} {
+		log.Printf(" ?= %q", f([]int{5, 4, 3, 2, 1}))
+		log.Printf(" ?= %q", f([]int{10, 3, 8, 9, 4}))
+	}
 }
 
 // 786m K-th Smallest Prime Fraction
