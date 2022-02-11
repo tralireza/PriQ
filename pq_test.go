@@ -8,6 +8,12 @@ import (
 
 func init() {}
 
+// 506 Relative Ranks
+func Test506(t *testing.T) {
+	log.Printf(" ?= %q", findRelativeRanks([]int{5, 4, 3, 2, 1}))
+	log.Printf(" ?= %q", findRelativeRanks([]int{10, 3, 8, 9, 4}))
+}
+
 // 786m K-th Smallest Prime Fraction
 func Test786(t *testing.T) {
 	On2 := func(nums []int, k int) []int {

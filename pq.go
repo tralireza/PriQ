@@ -5,12 +5,48 @@ import (
 	"log"
 	"slices"
 	"sort"
+	"strconv"
 )
 
 func init() {
 	log.SetFlags(0)
 	log.SetPrefix("")
 	log.Print("> Priority Queue")
+}
+
+// 506 Relative Ranks
+func findRelativeRanks(score []int) []string {
+	// score.length < 10^4
+	// score[i] < 10^6
+	Rank := make([]string, len(score))
+
+	maxScore := slices.Max(score)
+	iScore := make([]int, maxScore+1)
+	for i, v := range score {
+		iScore[v] = i + 1
+	}
+	log.Print(iScore)
+
+	for r, v := 1, maxScore; v >= 0; v-- {
+		if iScore[v] > 0 {
+			var rank string
+			switch r {
+			case 1:
+				rank = "Gold Medal"
+			case 2:
+				rank = "Silver Medal"
+			case 3:
+				rank = "Bronze Medal"
+			default:
+				rank = strconv.Itoa(r)
+			}
+
+			Rank[iScore[v]-1] = rank
+			r++
+		}
+	}
+
+	return Rank
 }
 
 type PQ786 []E786
