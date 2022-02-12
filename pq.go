@@ -136,11 +136,7 @@ func (h *PQ3075) Pop() any {
 
 // 3075m Maximum Happiness of Selected Children
 func maximumHappinessSum(happiness []int, k int) int64 {
-
-	Q := PQ3075{}
-	for _, v := range happiness {
-		Q.IntSlice = append(Q.IntSlice, v)
-	}
+	Q := PQ3075{IntSlice: happiness}
 	heap.Init(&Q)
 
 	hSum := int64(0)
