@@ -127,7 +127,7 @@ func mincostToHireWorkers(quality []int, wage []int, k int) float64 {
 type PQ3075 struct{ sort.IntSlice }
 
 func (h PQ3075) Less(i, j int) bool { return h.IntSlice[i] > h.IntSlice[j] } // Max Heap
-func (PQ3075) Push(any)             {}                                       // Not needed, only Pop, Init & Fix
+func (PQ3075) Push(any)             {}                                       // Not needed, only Pop, Init
 func (h *PQ3075) Pop() any {
 	v := h.IntSlice[len(h.IntSlice)-1]
 	h.IntSlice = h.IntSlice[:len(h.IntSlice)-1]
