@@ -123,3 +123,8 @@ func mincostToHireWorkers(quality []int, wage []int, k int) float64 {
 	}
 	return mCost
 }
+
+// 3075m Maximum Happiness of Selected Children
+func maximumHappinessSum(happiness []int, k int) int64 {
+	return 0
+}

@@ -4,6 +4,7 @@ import (
 	"container/heap"
 	"log"
 	"slices"
+	"sort"
 	"strconv"
 	"testing"
 )
@@ -72,4 +73,26 @@ func Test786(t *testing.T) {
 func Test857(t *testing.T) {
 	log.Print("105 ?= ", mincostToHireWorkers([]int{10, 20, 5}, []int{70, 50, 30}, 2))
 	log.Print("30.6 ?= ", mincostToHireWorkers([]int{3, 1, 10, 10, 1}, []int{4, 8, 2, 2, 7}, 3))
+}
+
+// 3075m Maximum Happiness of Selected Children
+func Test3075(t *testing.T) {
+	Greedy := func(happiness []int, k int) int64 {
+		sort.Sort(sort.Reverse(sort.IntSlice(happiness)))
+
+		hSum := int64(0)
+		for i := range k {
+			if happiness[i]-i <= 0 {
+				return hSum
+			}
+			hSum += int64(happiness[i] - i)
+		}
+		return hSum
+	}
+
+	for _, f := range []func([]int, int) int64{Greedy, maximumHappinessSum} {
+		log.Print("4 ?= ", f([]int{1, 2, 3}, 2))
+		log.Print("1 ?= ", f([]int{1, 1, 1, 1}, 2))
+		log.Print("5 ?= ", f([]int{2, 3, 4, 5}, 1))
+	}
 }
