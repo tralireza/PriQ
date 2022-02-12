@@ -124,7 +124,32 @@ func mincostToHireWorkers(quality []int, wage []int, k int) float64 {
 	return mCost
 }
 
+type PQ3075 struct{ sort.IntSlice }
+
+func (h PQ3075) Less(i, j int) bool { return h.IntSlice[i] > h.IntSlice[j] } // Max Heap
+func (PQ3075) Push(any)             {}                                       // Not needed, only Pop, Init & Fix
+func (h *PQ3075) Pop() any {
+	v := h.IntSlice[len(h.IntSlice)-1]
+	h.IntSlice = h.IntSlice[:len(h.IntSlice)-1]
+	return v
+}
+
 // 3075m Maximum Happiness of Selected Children
 func maximumHappinessSum(happiness []int, k int) int64 {
-	return 0
+
+	Q := PQ3075{}
+	for _, v := range happiness {
+		Q.IntSlice = append(Q.IntSlice, v)
+	}
+	heap.Init(&Q)
+
+	hSum := int64(0)
+	for i := range k {
+		v := heap.Pop(&Q).(int)
+		if v-i <= 0 {
+			return hSum
+		}
+		hSum += int64(v - i)
+	}
+	return hSum
 }

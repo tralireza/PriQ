@@ -91,6 +91,7 @@ func Test3075(t *testing.T) {
 	}
 
 	for _, f := range []func([]int, int) int64{Greedy, maximumHappinessSum} {
+		log.Print("==")
 		log.Print("4 ?= ", f([]int{1, 2, 3}, 2))
 		log.Print("1 ?= ", f([]int{1, 1, 1, 1}, 2))
 		log.Print("5 ?= ", f([]int{2, 3, 4, 5}, 1))
