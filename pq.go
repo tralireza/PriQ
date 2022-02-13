@@ -49,6 +49,27 @@ func findRelativeRanks(score []int) []string {
 	return Rank
 }
 
+// 215m Kth Largest Element in an Array
+type PQ215 struct{ sort.IntSlice }
+
+func (h PQ215) Less(i, j int) bool { return h.IntSlice[j] < h.IntSlice[i] } // Max Heap(PQ)
+func (PQ215) Push(_ any)           {}                                       // not needed, only Init() and Pop()
+func (h *PQ215) Pop() any {
+	v := h.IntSlice[h.Len()-1]
+	h.IntSlice = h.IntSlice[:h.Len()-1]
+	return v
+}
+
+func findKthLargest(nums []int, k int) int {
+	pq := PQ215{nums}
+	heap.Init(&pq)
+
+	for range k - 1 {
+		heap.Pop(&pq)
+	}
+	return heap.Pop(&pq).(int)
+}
+
 type PQ786 []E786
 type E786 struct {
 	Ratio float64

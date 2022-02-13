@@ -11,6 +11,12 @@ import (
 
 func init() {}
 
+// 215m Kth Largest Element in an Array
+func Test215(t *testing.T) {
+	log.Print("5 ?= ", findKthLargest([]int{3, 2, 1, 5, 6, 4}, 2))
+	log.Print("4 ?= ", findKthLargest([]int{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4))
+}
+
 // 506 Relative Ranks
 func Test506(t *testing.T) {
 	IndexMap := func(score []int) []string {
