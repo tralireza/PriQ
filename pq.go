@@ -84,19 +84,18 @@ func (h *PQ502) Pop() any {
 	return v
 }
 
-type PQ502C struct{ PQ502 }
+type PQ502e struct{ PQ502 }
 
-func (h PQ502C) Less(i, j int) bool { return h.PQ502[i].c < h.PQ502[j].c }
+func (h PQ502e) Less(i, j int) bool { return h.PQ502[i].c < h.PQ502[j].c }
 
 func findMaximizedCapital(k int, w int, profits []int, capital []int) int {
-	feedQ := PQ502C{}
+	feedQ := PQ502e{}
 	for i := 0; i < len(capital); i++ {
 		feedQ.PQ502 = append(feedQ.PQ502, E502{p: profits[i], c: capital[i]})
 	}
 	heap.Init(&feedQ)
 
 	pq := PQ502{}
-
 	for feedQ.Len() > 0 && feedQ.PQ502[0].c <= w {
 		pq = append(pq, heap.Pop(&feedQ).(E502))
 	}
@@ -109,7 +108,6 @@ func findMaximizedCapital(k int, w int, profits []int, capital []int) int {
 		}
 		k--
 	}
-
 	return w
 }
 
