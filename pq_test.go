@@ -17,6 +17,12 @@ func Test215(t *testing.T) {
 	log.Print("4 ?= ", findKthLargest([]int{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4))
 }
 
+// 502 IPS
+func Test502(t *testing.T) {
+	log.Print("4 ?= ", findMaximizedCapital(2, 0, []int{1, 2, 3}, []int{0, 1, 1}))
+	log.Print("6 ?= ", findMaximizedCapital(3, 0, []int{1, 2, 3}, []int{0, 1, 1}))
+}
+
 // 506 Relative Ranks
 func Test506(t *testing.T) {
 	IndexMap := func(score []int) []string {

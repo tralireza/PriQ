@@ -70,6 +70,49 @@ func findKthLargest(nums []int, k int) int {
 	return heap.Pop(&pq).(int)
 }
 
+// 502h IPO
+type PQ502 []E502
+type E502 struct{ p, c int }
+
+func (h PQ502) Len() int      { return len(h) }
+func (h PQ502) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
+func (h PQ502) Less(i, j int) bool {
+	return h[i].p > h[j].p
+}
+func (h *PQ502) Push(x any) { *h = append(*h, x.(E502)) }
+func (h *PQ502) Pop() any {
+	v := (*h)[h.Len()-1]
+	*h = (*h)[:h.Len()-1]
+	return v
+}
+
+func findMaximizedCapital(k int, w int, profits []int, capital []int) int {
+	Q := make([]E502, len(profits))
+	for i := range Q {
+		Q[i] = E502{p: profits[i], c: capital[i]}
+	}
+	slices.SortFunc(Q, func(x, y E502) int { return x.c - y.c })
+
+	pq := PQ502{}
+	i := 0
+	for i < len(Q) && Q[i].c <= w {
+		heap.Push(&pq, Q[i])
+		i++
+	}
+
+	for k > 0 && pq.Len() > 0 {
+		w += heap.Pop(&pq).(E502).p
+		for i < len(Q) && Q[i].c <= w {
+			heap.Push(&pq, Q[i])
+			i++
+		}
+		k--
+	}
+
+	return w
+}
+
+// 786m K-th Smallest Prime Fraction
 type PQ786 []E786
 type E786 struct {
 	Ratio float64
@@ -86,7 +129,6 @@ func (p *PQ786) Pop() any {
 	return v
 }
 
-// 786m K-th Smallest Prime Fraction
 func kthSmallestPrimeFraction(arr []int, k int) []int {
 	Q := PQ786{}
 	for i := range arr[:len(arr)-1] {
@@ -105,13 +147,13 @@ func kthSmallestPrimeFraction(arr []int, k int) []int {
 	return []int{arr[e.n], arr[e.d]}
 }
 
+// 857h Minimum Cost to Hire K Workers
 type PQ857 struct{ sort.IntSlice }
 
 func (pq PQ857) Less(i, j int) bool { return pq.IntSlice[i] > pq.IntSlice[j] } // Max Heap
 func (PQ857) Push(any)              {}                                         // No use, only Init & Fix
 func (PQ857) Pop() (_ any)          { return }                                 // ^
 
-// 857h Minimum Cost to Hire K Workers
 func mincostToHireWorkers(quality []int, wage []int, k int) float64 {
 	type WQ struct{ w, q int }
 	WQs := []WQ{}
@@ -145,6 +187,7 @@ func mincostToHireWorkers(quality []int, wage []int, k int) float64 {
 	return mCost
 }
 
+// 3075m Maximum Happiness of Selected Children
 type PQ3075 struct{ sort.IntSlice }
 
 func (h PQ3075) Less(i, j int) bool { return h.IntSlice[i] > h.IntSlice[j] } // Max Heap
@@ -155,7 +198,6 @@ func (h *PQ3075) Pop() any {
 	return v
 }
 
-// 3075m Maximum Happiness of Selected Children
 func maximumHappinessSum(happiness []int, k int) int64 {
 	Q := PQ3075{IntSlice: happiness}
 	heap.Init(&Q)
