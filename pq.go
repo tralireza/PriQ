@@ -74,37 +74,38 @@ func findKthLargest(nums []int, k int) int {
 type PQ502 []E502
 type E502 struct{ p, c int }
 
-func (h PQ502) Len() int      { return len(h) }
-func (h PQ502) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
-func (h PQ502) Less(i, j int) bool {
-	return h[i].p > h[j].p
-}
-func (h *PQ502) Push(x any) { *h = append(*h, x.(E502)) }
+func (h PQ502) Len() int           { return len(h) }
+func (h PQ502) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+func (h PQ502) Less(i, j int) bool { return h[i].p > h[j].p }
+func (h *PQ502) Push(x any)        { *h = append(*h, x.(E502)) }
 func (h *PQ502) Pop() any {
 	v := (*h)[h.Len()-1]
 	*h = (*h)[:h.Len()-1]
 	return v
 }
 
+type PQ502C struct{ PQ502 }
+
+func (h PQ502C) Less(i, j int) bool { return h.PQ502[i].c < h.PQ502[j].c }
+
 func findMaximizedCapital(k int, w int, profits []int, capital []int) int {
-	Q := make([]E502, len(profits))
-	for i := range Q {
-		Q[i] = E502{p: profits[i], c: capital[i]}
+	feedQ := PQ502C{}
+	for i := 0; i < len(capital); i++ {
+		feedQ.PQ502 = append(feedQ.PQ502, E502{p: profits[i], c: capital[i]})
 	}
-	slices.SortFunc(Q, func(x, y E502) int { return x.c - y.c })
+	heap.Init(&feedQ)
 
 	pq := PQ502{}
-	i := 0
-	for i < len(Q) && Q[i].c <= w {
-		heap.Push(&pq, Q[i])
-		i++
+
+	for feedQ.Len() > 0 && feedQ.PQ502[0].c <= w {
+		pq = append(pq, heap.Pop(&feedQ).(E502))
 	}
+	heap.Init(&pq)
 
 	for k > 0 && pq.Len() > 0 {
 		w += heap.Pop(&pq).(E502).p
-		for i < len(Q) && Q[i].c <= w {
-			heap.Push(&pq, Q[i])
-			i++
+		for feedQ.Len() > 0 && feedQ.PQ502[0].c <= w {
+			heap.Push(&pq, heap.Pop(&feedQ))
 		}
 		k--
 	}
