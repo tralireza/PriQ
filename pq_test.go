@@ -17,7 +17,7 @@ func Test215(t *testing.T) {
 	log.Print("4 ?= ", findKthLargest([]int{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4))
 }
 
-// 502 IPS
+// 502h IPO
 func Test502(t *testing.T) {
 	log.Print("4 ?= ", findMaximizedCapital(2, 0, []int{1, 2, 3}, []int{0, 1, 1}))
 	log.Print("6 ?= ", findMaximizedCapital(3, 0, []int{1, 2, 3}, []int{0, 1, 1}))
@@ -85,6 +85,13 @@ func Test786(t *testing.T) {
 func Test857(t *testing.T) {
 	log.Print("105 ?= ", mincostToHireWorkers([]int{10, 20, 5}, []int{70, 50, 30}, 2))
 	log.Print("30.6 ?= ", mincostToHireWorkers([]int{3, 1, 10, 10, 1}, []int{4, 8, 2, 2, 7}, 3))
+}
+
+// 1438m Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
+func Test1438(t *testing.T) {
+	log.Print("2 ?= ", longestSubarray([]int{8, 2, 4, 7}, 4))
+	log.Print("4 ?= ", longestSubarray([]int{10, 1, 2, 4, 7, 2}, 5))
+	log.Print("3 ?= ", longestSubarray([]int{4, 2, 2, 2, 4, 4, 2, 2}, 0))
 }
 
 // 3075m Maximum Happiness of Selected Children

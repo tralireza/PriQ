@@ -186,6 +186,48 @@ func mincostToHireWorkers(quality []int, wage []int, k int) float64 {
 	return mCost
 }
 
+// 1438m Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
+type PQ1438 []E1438
+type E1438 struct{ v, i int }
+
+func (o PQ1438) Len() int           { return len(o) }
+func (o PQ1438) Swap(i, j int)      { o[i], o[j] = o[j], o[i] }
+func (o PQ1438) Less(i, j int) bool { return o[i].v < o[j].v }
+func (o *PQ1438) Push(x any)        { *o = append(*o, x.(E1438)) }
+func (o *PQ1438) Pop() any {
+	x := (*o)[o.Len()-1]
+	*o = (*o)[:o.Len()-1]
+	return x
+}
+
+func longestSubarray(nums []int, limit int) int {
+	type PQ = PQ1438
+	type E = E1438
+
+	ls := 0
+	hX, hM := PQ{}, PQ{}
+
+	l := 0
+	for r := range nums {
+		heap.Push(&hX, E{-nums[r], r}) // MaxHeap
+		heap.Push(&hM, E{nums[r], r})  // MinHeap
+
+		for -hX[0].v-hM[0].v > limit {
+			for hX[0].i <= l {
+				heap.Pop(&hX)
+			}
+			for hM[0].i <= l {
+				heap.Pop(&hM)
+			}
+			l++
+		}
+
+		ls = max(r-l+1, ls)
+	}
+
+	return ls
+}
+
 // 3075m Maximum Happiness of Selected Children
 type PQ3075 struct{ sort.IntSlice }
 
