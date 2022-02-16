@@ -2,7 +2,6 @@ package PriQ
 
 import (
 	"container/heap"
-	"container/list"
 	"log"
 	"slices"
 	"sort"
@@ -91,27 +90,27 @@ func Test857(t *testing.T) {
 // 1438m Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
 func Test1438(t *testing.T) {
 	WithDeque := func(nums []int, limit int) int {
-		dM, dX := list.New(), list.New()
+		dM, dX := []int{}, []int{}
 
 		ls := 0
 		l := 0
 		for r := range nums {
-			for dM.Len() > 0 && dM.Back().Value.(int) > nums[r] {
-				dM.Remove(dM.Back())
+			for len(dM) > 0 && dM[len(dM)-1] > nums[r] {
+				dM = dM[:len(dM)-1]
 			}
-			dM.PushBack(nums[r])
+			dM = append(dM, nums[r])
 
-			for dX.Len() > 0 && dX.Back().Value.(int) < nums[r] {
-				dX.Remove(dX.Back())
+			for len(dX) > 0 && dX[len(dX)-1] < nums[r] {
+				dX = dX[:len(dX)-1]
 			}
-			dX.PushBack(nums[r])
+			dX = append(dX, nums[r])
 
-			for dX.Front().Value.(int)-dM.Front().Value.(int) > limit {
-				if dX.Front().Value.(int) == nums[l] {
-					dX.Remove(dX.Front())
+			for dX[0]-dM[0] > limit {
+				if dX[0] == nums[l] {
+					dX = dX[1:]
 				}
-				if dM.Front().Value.(int) == nums[l] {
-					dM.Remove(dM.Front())
+				if dM[0] == nums[l] {
+					dM = dM[1:]
 				}
 				l++
 			}
