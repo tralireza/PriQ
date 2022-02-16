@@ -2,6 +2,7 @@ package PriQ
 
 import (
 	"container/heap"
+	"container/list"
 	"log"
 	"slices"
 	"sort"
@@ -89,9 +90,44 @@ func Test857(t *testing.T) {
 
 // 1438m Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
 func Test1438(t *testing.T) {
-	log.Print("2 ?= ", longestSubarray([]int{8, 2, 4, 7}, 4))
-	log.Print("4 ?= ", longestSubarray([]int{10, 1, 2, 4, 7, 2}, 5))
-	log.Print("3 ?= ", longestSubarray([]int{4, 2, 2, 2, 4, 4, 2, 2}, 0))
+	WithDeque := func(nums []int, limit int) int {
+		dM, dX := list.New(), list.New()
+
+		ls := 0
+		l := 0
+		for r := range nums {
+			for dM.Len() > 0 && dM.Back().Value.(int) > nums[r] {
+				dM.Remove(dM.Back())
+			}
+			dM.PushBack(nums[r])
+
+			for dX.Len() > 0 && dX.Back().Value.(int) < nums[r] {
+				dX.Remove(dX.Back())
+			}
+			dX.PushBack(nums[r])
+
+			for dX.Front().Value.(int)-dM.Front().Value.(int) > limit {
+				if dX.Front().Value.(int) == nums[l] {
+					dX.Remove(dX.Front())
+				}
+				if dM.Front().Value.(int) == nums[l] {
+					dM.Remove(dM.Front())
+				}
+				l++
+			}
+
+			ls = max(r-l+1, ls)
+		}
+
+		return ls
+	}
+
+	for _, f := range []func([]int, int) int{longestSubarray, WithDeque} {
+		log.Print("==")
+		log.Print("2 ?= ", f([]int{8, 2, 4, 7}, 4))
+		log.Print("4 ?= ", f([]int{10, 1, 2, 4, 7, 2}, 5))
+		log.Print("3 ?= ", f([]int{4, 2, 2, 2, 4, 4, 2, 2}, 0))
+	}
 }
 
 // 3075m Maximum Happiness of Selected Children
