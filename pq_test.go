@@ -129,6 +129,12 @@ func Test1438(t *testing.T) {
 	}
 }
 
+// 2285m Maximum Total Importance of Roads
+func Test2285(t *testing.T) {
+	log.Print("43 ?= ", maximumImportance(5, [][]int{{0, 1}, {1, 2}, {2, 3}, {0, 2}, {1, 3}, {2, 4}}))
+	log.Print("20 ?= ", maximumImportance(5, [][]int{{0, 3}, {2, 4}, {1, 3}}))
+}
+
 // 3075m Maximum Happiness of Selected Children
 func Test3075(t *testing.T) {
 	Greedy := func(happiness []int, k int) int64 {
