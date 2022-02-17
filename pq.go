@@ -229,16 +229,13 @@ func longestSubarray(nums []int, limit int) int {
 }
 
 // 2285m Maximum Total Importance of Roads
-type PQ2285 []E2285
-type E2285 struct{ d, n int }
+type PQ2285 struct{ sort.IntSlice }
 
-func (o PQ2285) Len() int           { return len(o) }
-func (o PQ2285) Less(i, j int) bool { return o[i].d > o[j].d }
-func (o PQ2285) Swap(i, j int)      { o[i], o[j] = o[j], o[i] }
+func (o PQ2285) Less(i, j int) bool { return o.IntSlice[i] > o.IntSlice[j] }
 func (o *PQ2285) Push(any)          {}
 func (o *PQ2285) Pop() any {
-	x := (*o)[o.Len()-1]
-	*o = (*o)[:o.Len()-1]
+	x := o.IntSlice[o.Len()-1]
+	o.IntSlice = o.IntSlice[:o.Len()-1]
 	return x
 }
 
@@ -251,12 +248,10 @@ func maximumImportance(n int, roads [][]int) int64 {
 
 	log.Print(G)
 
-	type E = E2285
 	type PQ = PQ2285
-
 	Q := PQ{}
 	for v := range n {
-		Q = append(Q, E{d: len(G[v]), n: v})
+		Q.IntSlice = append(Q.IntSlice, len(G[v]))
 	}
 	heap.Init(&Q)
 
@@ -264,7 +259,7 @@ func maximumImportance(n int, roads [][]int) int64 {
 
 	x := int64(0)
 	for Q.Len() > 0 {
-		x += int64(n * heap.Pop(&Q).(E).d)
+		x += int64(n * heap.Pop(&Q).(int))
 		n--
 	}
 	return x
